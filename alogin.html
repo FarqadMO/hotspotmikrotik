@@ -1,49 +1,184 @@
-<html>
+<!DOCTYPE html>
+<html lang="ar" data-theme="dark" dir="rtl">
 <head>
-<title>Al Maktab hotspot > redirect</title>
-<meta http-equiv="refresh" content="2; url=$(link-redirect)">
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="expires" content="-1">
-<style type="text/css">
-<!--
-textarea,input,select {
-	background-color: #FDFBFB;
-	border: 1px #BBBBBB solid;
-	padding: 2px;
-	margin: 1px;
-	font-size: 14px;
-	color: #808080;
-}
-
-body{ color: #737373; font-size: 12px; font-family: verdana; }
-
-a, a:link, a:visited, a:active { color: #AAAAAA; text-decoration: none; font-size: 12px; }
-a:hover { border-bottom: 1px dotted #c1c1c1; color: #AAAAAA; }
-img {border: none;}
-td { font-size: 12px; color: #7A7A7A; }
-
--->
-</style>
-<script language="JavaScript">
-<!--
-    function startClock() {
-        $(if popup == 'true')
-        open('$(link-status)', 'hotspot_status', 'toolbar=0,location=0,directories=0,status=0,menubars=0,resizable=1,width=290,height=200');
-	$(endif)
-	location.href = '$(link-redirect)';
+  <script>
+    /* Run before CSS to avoid flash of wrong theme */
+    (function(){
+      var s='';try{s=sessionStorage.getItem('hs-theme')||'';}catch(e){}
+      if(s==='light'||s==='dark'){document.documentElement.setAttribute('data-theme',s);}
+      else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches){
+        document.documentElement.setAttribute('data-theme','light');
+      }
+    })();
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="expires" content="-1">
+  <link rel="icon" type="image/png" href="img/icon-logo.png">
+  <title>تم الاتصال</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    /* ── Dark theme (default) ──────────────────────────── */
+    :root, [data-theme="dark"] {
+      --bg: #020617; --green: #22c55e; --green-glow: rgba(34,197,94,0.35);
+      --text: #ffffff; --text-dim: #94a3b8;
+      --card-bg: rgba(255,255,255,0.05); --card-bd: rgba(255,255,255,0.12);
+      --icon-color: #64748b;
+      --toggle-bg: rgba(255,255,255,0.08);
+      --toggle-bd: rgba(255,255,255,0.15);
     }
-//-->
-</script>
+
+    /* ── Light theme ───────────────────────────────────── */
+    [data-theme="light"] {
+      --bg: #f1f5f9; --green: #16a34a; --green-glow: rgba(22,163,74,0.35);
+      --text: #0f172a; --text-dim: #475569;
+      --card-bg: rgba(255,255,255,0.85); --card-bd: rgba(15,23,42,0.10);
+      --icon-color: #94a3b8;
+      --toggle-bg: rgba(15,23,42,0.06);
+      --toggle-bd: rgba(15,23,42,0.12);
+    }
+    
+    html, body {
+      height: 100%; background: var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      color: var(--text); overflow: hidden;
+      transition: background 0.3s, color 0.3s;
+    }
+    body { display: flex; align-items: center; justify-content: center; }
+
+    .screen {
+      position: relative; width: 100%; max-width: 390px;
+      height: 100vh; height: 100dvh; overflow: hidden;
+      background: var(--bg); display: flex;
+      flex-direction: column; align-items: center; justify-content: center; gap: 32px;
+    }
+
+    /* Grid background */
+    .screen::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='88' height='88'%3E%3Crect x='.5' y='.5' width='87' height='87' fill='none' stroke='%23575369' stroke-width='.9' rx='9.7'/%3E%3C/svg%3E");
+      background-size: 88px 88px;
+      -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 70%);
+              mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 70%);
+      pointer-events: none;
+    }
+    [data-theme="light"] .screen::before {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='88' height='88'%3E%3Crect x='.5' y='.5' width='87' height='87' fill='none' stroke='%2394a3b8' stroke-width='.9' rx='9.7'/%3E%3C/svg%3E");
+    }
+
+    /* Green glow */
+    .glow {
+      position: absolute; width: 360px; height: 360px;
+      border-radius: 50%; pointer-events: none;
+      background: radial-gradient(circle, rgba(34,197,94,0.12) 0%, transparent 70%);
+    }
+
+    /* ── Theme toggle button ────────────────────────────── */
+    .theme-toggle {
+      position: absolute;
+      top: 20px; left: 20px;
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      border: 1px solid var(--toggle-bd);
+      background: var(--toggle-bg);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; z-index: 10;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.2s, border-color 0.2s;
+      color: var(--icon-color);
+    }
+    .theme-toggle:hover { background: rgba(34,197,94,0.12); border-color: rgba(34,197,94,0.30); }
+
+    [data-theme="dark"]  .icon-sun  { display: block; }
+    [data-theme="dark"]  .icon-moon { display: none;  }
+    [data-theme="light"] .icon-moon { display: block; }
+    [data-theme="light"] .icon-sun  { display: none;  }
+
+    /* Check icon card */
+    .icon-card {
+      width: 100px; height: 100px; border-radius: 24px;
+      border: 1.5px solid var(--card-bd);
+      background: var(--card-bg);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 60px rgba(34,197,94,0.2), 0 0 16px var(--card-bd);
+      position: relative; z-index: 1;
+    }
+
+    .text-center { text-align: center; position: relative; z-index: 1; }
+
+    .title {
+      font-size: 26px; font-weight: 900; letter-spacing: -0.5px;
+      color: var(--text);
+      transition: color 0.3s;
+    }
+    [data-theme="dark"] .title {
+      text-shadow: 0 0 24px rgba(255,255,255,0.2);
+    }
+
+    .subtitle { font-size: 13px; font-weight: 500; color: var(--text-dim); margin-top: 8px; line-height: 1.6; }
+
+    .redirect-link {
+      font-size: 13px; color: var(--text-dim); text-decoration: none;
+      position: relative; z-index: 1; margin-top: 8px;
+      transition: color 0.3s;
+    }
+    .redirect-link span { color: var(--green); text-decoration: underline; }
+  </style>
+  <script>
+    function startClock() {
+      $(if popup == 'true')
+      open('$(link-status)', 'hotspot_status', 'toolbar=0,location=0,directories=0,status=0,menubars=0,resizable=1,width=290,height=250');
+      $(endif)
+      location.href = '$(link-redirect)';
+    }
+    
+    function toggleTheme() {
+      var html = document.documentElement;
+      var next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      html.setAttribute('data-theme', next);
+      try { sessionStorage.setItem('hs-theme', next); } catch(e) {}
+    }
+  </script>
 </head>
-<body onLoad="startClock()">
-<table width="100%" height="100%">
-<tr>
-	<td align="center" valign="middle">
-	You are logged in
-	<br><br>
-	If nothing happens, click <a href="$(link-redirect)">here</a></td>
-</tr>
-</table>
+<body onload="startClock()">
+
+<div class="screen">
+  <div class="glow"></div>
+
+  <!-- Theme toggle (top-left) -->
+  <button class="theme-toggle" onclick="toggleTheme()" type="button" aria-label="Toggle theme">
+    <svg class="icon-sun" width="18" height="18" viewBox="0 0 18 18" fill="none">
+      <circle cx="9" cy="9" r="3.5" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M9 1.5V3M9 15V16.5M1.5 9H3M15 9H16.5M3.7 3.7L4.75 4.75M13.25 13.25L14.3 14.3M3.7 14.3L4.75 13.25M13.25 4.75L14.3 3.7"
+            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    <svg class="icon-moon" width="18" height="18" viewBox="0 0 18 18" fill="none">
+      <path d="M15.5 10.5A7 7 0 0 1 7.5 2.5a7 7 0 0 0 8 8z"
+            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  <div class="icon-card">
+    <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+      <circle cx="26" cy="26" r="25" stroke="var(--green)" stroke-width="1.5" opacity="0.4"/>
+      <path d="M15 26.5 L22 34 L37 18" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <div class="text-center">
+    <h1 class="title">تم الاتصال! 🎉</h1>
+    <p class="subtitle">جاري تحويلك إلى الإنترنت...</p>
+  </div>
+
+  <a href="$(link-redirect)" class="redirect-link">
+    لم يتم التحويل؟ <span>اضغط هنا</span>
+  </a>
+</div>
+
 </body>
 </html>

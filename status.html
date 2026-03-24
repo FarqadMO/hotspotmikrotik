@@ -1,104 +1,195 @@
-<html>
+<!DOCTYPE html>
+<html lang="ar" data-theme="dark" dir="rtl">
 <head>
-<title>Hotspot > status</title>
-$(if refresh-timeout)
-<meta http-equiv="refresh" content="$(refresh-timeout-secs)">
-$(endif)
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="expires" content="-1">
-<style type="text/css">
-<!--
-textarea,input,select {
-	background-color: #FDFBFB;
-	border: 1px #BBBBBB solid;
-	padding: 2px;
-	margin: 1px;
-	font-size: 14px;
-	color: #808080;
-}
+  <script>
+    /* Run before CSS to avoid flash of wrong theme */
+    (function(){
+      var s='';try{s=sessionStorage.getItem('hs-theme')||'';}catch(e){}
+      if(s==='light'||s==='dark'){document.documentElement.setAttribute('data-theme',s);}
+      else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches){
+        document.documentElement.setAttribute('data-theme','light');
+      }
+    })();
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  $(if refresh-timeout)
+  <meta http-equiv="refresh" content="$(refresh-timeout-secs)">
+  $(endif)
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="expires" content="-1">
+  <link rel="icon" type="image/png" href="img/icon-logo.png">
+  <title>حالة الاتصال</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    /* ── Dark theme (default) ──────────────────────────── */
+    :root, [data-theme="dark"] {
+      --bg: #020617; --red: #c50f30; --red-dark: #9a0c26;
+      --text: #ffffff; --text-muted: #64748b; --text-dim: #94a3b8;
+      --card-bg: rgba(255,255,255,0.05); --card-bd: rgba(255,255,255,0.12);
+      --row-bd: rgba(255,255,255,0.07);
+    }
 
-.tabula{
- 
-border-width: 1px; 
-border-collapse: collapse; 
-border-color: #c1c1c1; 
-background-color: transparent;
-font-family: verdana;
-font-size: 11px;
-}
+    /* ── Light theme ───────────────────────────────────── */
+    [data-theme="light"] {
+      --bg: #f1f5f9; --red: #c50f30; --red-dark: #9a0c26;
+      --text: #0f172a; --text-muted: #94a3b8; --text-dim: #475569;
+      --card-bg: rgba(255,255,255,0.85); --card-bd: rgba(15,23,42,0.10);
+      --row-bd: rgba(15,23,42,0.08);
+    }
+    
+    html, body {
+      height: 100%; background: var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      color: var(--text);
+      transition: background 0.3s, color 0.3s;
+    }
+    body {
+      display: flex; align-items: center; justify-content: center;
+      min-height: 100%; padding: 12px;
+    }
 
-body{ color: #737373; font-size: 12px; font-family: verdana; }
+    .card {
+      width: 100%; max-width: 270px;
+      border: 1px solid var(--card-bd);
+      border-radius: 16px;
+      background: var(--card-bg);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      overflow: hidden;
+    }
 
-a, a:link, a:visited, a:active { color: #AAAAAA; text-decoration: none; font-size: 12px; }
-a:hover { border-bottom: 1px dotted #c1c1c1; color: #AAAAAA; }
-img {border: none;}
-td { font-size: 12px; padding: 4px;}
+    /* Header */
+    .card-header {
+      padding: 14px 16px 12px;
+      border-bottom: 1px solid var(--row-bd);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .status-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 8px rgba(34,197,94,0.7);
+      flex-shrink: 0;
+    }
+    .card-header-text { flex: 1; }
+    .greeting {
+      font-size: 13px; font-weight: 700; color: var(--text);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .card-sub { font-size: 11px; color: var(--text-dim); margin-top: 1px; }
 
--->
-</style>
-<script language="JavaScript">
-<!--
-$(if advert-pending == 'yes')
+    /* Rows */
+    .stats { padding: 6px 0; }
+    .row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 7px 16px;
+      border-bottom: 1px solid var(--row-bd);
+      gap: 8px;
+    }
+    .row:last-child { border-bottom: none; }
+    .row-label { font-size: 11px; color: var(--text-dim); flex-shrink: 0; }
+    .row-value { font-size: 12px; font-weight: 600; color: var(--text); text-align: right; font-variant-numeric: tabular-nums; }
+    .row-value.highlight { color: #22c55e; }
+
+    /* Alert row */
+    .alert-row {
+      padding: 6px 16px;
+      background: rgba(197,15,48,0.12);
+      border-top: 1px solid rgba(197,15,48,0.2);
+    }
+    .alert-row a {
+      font-size: 11px; color: var(--red); text-decoration: none; font-weight: 600;
+    }
+
+    /* Logout button */
+    .card-footer { padding: 12px 16px; }
+    .btn-logout {
+      display: block; width: 100%; padding: 11px;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 10px;
+      background: var(--red-dark);
+      color: #fff; font-size: 13px; font-weight: 700;
+      cursor: pointer; text-align: center;
+      font-family: inherit; text-decoration: none;
+      box-shadow: 0 4px 24px rgba(217,17,55,0.35);
+      transition: background 0.15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn-logout:hover { background: var(--red); }
+  </style>
+  <script>
+    $(if advert-pending == 'yes')
     var popup = '';
-    function focusAdvert() {
-	if (window.focus) popup.focus();
-    }
+    function focusAdvert() { if (window.focus) popup.focus(); }
     function openAdvert() {
-	popup = open('$(link-advert)', 'hotspot_advert', '');
-	setTimeout("focusAdvert()", 1000);
+      popup = open('$(link-advert)', 'hotspot_advert', '');
+      setTimeout("focusAdvert()", 1000);
     }
-$(endif)
+    $(endif)
     function openLogout() {
-	if (window.name != 'hotspot_status') return true;
-        open('$(link-logout)', 'hotspot_logout', 'toolbar=0,location=0,directories=0,status=0,menubars=0,resizable=1,width=280,height=250');
-	window.close();
-	return false;
+      if (window.name != 'hotspot_status') return true;
+      open('$(link-logout)', 'hotspot_logout', 'toolbar=0,location=0,directories=0,status=0,menubars=0,resizable=1,width=290,height=250');
+      window.close();
+      return false;
     }
-//-->
-</script>
+  </script>
 </head>
-<body bottommargin="0" topmargin="0" leftmargin="0" rightmargin="0"
-$(if advert-pending == 'yes')
-	onLoad="openAdvert()"
-$(endif)
->
-<table width="100%" height="100%">
+<body $(if advert-pending == 'yes') onload="openAdvert()" $(endif)>
 
-<tr>
-<td align="center" valign="middle">
-<form action="$(link-logout)" name="logout" onSubmit="return openLogout()">
-<table border="1" class="tabula">
-$(if login-by == 'trial')
-	<br><div style="text-align: center;">Welcome trial user!</div><br>
-$(elif login-by != 'mac')
-	<br><div style="text-align: center;">Welcome $(username)!</div><br>
-$(endif)
-	<tr><td align="right">IP address:</td><td>$(ip)</td></tr>
-	<tr><td align="right">bytes up/down:</td><td>$(bytes-in-nice) / $(bytes-out-nice)</td></tr>
-$(if session-time-left)
-	<tr><td align="right">connected / left:</td><td>$(uptime) / $(session-time-left)</td></tr>
-$(else)
-	<tr><td align="right">connected:</td><td>$(uptime)</td></tr>
-$(endif)
-$(if blocked == 'yes')
-	<tr><td align="right">status:</td><td><div style="color: #FF8080">
-<a href="$(link-advert)" target="hotspot_advert">advertisement</a> required</div></td>
-$(elif refresh-timeout)
-	<tr><td align="right">status refresh:</td><td>$(refresh-timeout)</td>
-$(endif)
+<div class="card">
 
-</table>
-$(if login-by-mac != 'yes')
-<br>
-<!-- user manager link. if user manager resides on other router, replace $(hostname) by its address
-<button onclick="document.location='http://$(hostname)/user?subs='; return false;">status</button>
-<!-- end of user manager link -->
-<input type="submit" value="log off">
-$(endif)
-</form>
+  <div class="card-header">
+    <div class="status-dot"></div>
+    <div class="card-header-text">
+      $(if login-by == 'trial')
+      <div class="greeting">مستخدم تجريبي</div>
+      $(elif login-by != 'mac')
+      <div class="greeting">$(username)</div>
+      $(endif)
+      <div class="card-sub">متصل</div>
+    </div>
+  </div>
 
-</td>
-</table>
+  <div class="stats">
+    <div class="row">
+      <span class="row-label">عنوان IP</span>
+      <span class="row-value">$(ip)</span>
+    </div>
+    <div class="row">
+      <span class="row-label">رفع / تحميل</span>
+      <span class="row-value">$(bytes-in-nice) / $(bytes-out-nice)</span>
+    </div>
+    $(if session-time-left)
+    <div class="row">
+      <span class="row-label">متصل</span>
+      <span class="row-value">$(uptime)</span>
+    </div>
+    <div class="row">
+      <span class="row-label">الوقت المتبقي</span>
+      <span class="row-value highlight">$(session-time-left)</span>
+    </div>
+    $(else)
+    <div class="row">
+      <span class="row-label">متصل</span>
+      <span class="row-value highlight">$(uptime)</span>
+    </div>
+    $(endif)
+    $(if blocked == 'yes')
+    <div class="alert-row">
+      <a href="$(link-advert)" target="hotspot_advert">⚠ عرض الإعلان المطلوب</a>
+    </div>
+    $(endif)
+  </div>
+
+  $(if login-by-mac != 'yes')
+  <div class="card-footer">
+    <form action="$(link-logout)" name="logout" onsubmit="return openLogout()">
+      <button type="submit" class="btn-logout">تسجيل الخروج</button>
+    </form>
+  </div>
+  $(endif)
+
+</div>
+
 </body>
 </html>

@@ -1,0 +1,69 @@
+<svg width="390" height="428" viewBox="0 0 390 428" fill="none" xmlns="http://www.w3.org/2000/svg">
+<style>
+@keyframes flowRed1 {
+  0%   { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: -300; }
+}
+@keyframes flowRed2 {
+  0%   { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: -300; }
+}
+@keyframes pulseCircle1 {
+  0%, 100% { opacity: 1; r: 5.333; }
+  50%       { opacity: 0.5; r: 7; }
+}
+@keyframes pulseCircle2 {
+  0%, 100% { opacity: 1; r: 5.333; }
+  50%       { opacity: 0.5; r: 7; }
+}
+.flow-line-1 {
+  stroke-dasharray: 16 12;
+  animation: flowRed1 4.5s linear infinite;
+}
+.flow-line-2 {
+  stroke-dasharray: 16 12;
+  animation: flowRed2 5.5s linear infinite reverse;
+}
+.pulse-1 { animation: pulseCircle1 3.5s ease-in-out infinite; }
+.pulse-2 { animation: pulseCircle2 3.5s ease-in-out infinite 0.8s; }
+.glow-1 { filter: drop-shadow(0 0 4px #D91137) drop-shadow(0 0 10px rgba(217,17,55,0.6)); }
+.glow-2 { filter: drop-shadow(0 0 4px #D91137) drop-shadow(0 0 10px rgba(217,17,55,0.6)); }
+</style>
+
+<rect x="18.4287" y="-25.5703" width="88.4286" height="88.4286" rx="9.75764" stroke="#CBD5E1" stroke-width="0.914778"/>
+<rect x="106.857" y="-25.5703" width="88.4286" height="88.4286" rx="9.75764" stroke="#CBD5E1" stroke-width="0.914778"/>
+<rect x="195.286" y="-25.5703" width="88.4286" height="88.4286" rx="9.75764" stroke="#CBD5E1" stroke-width="0.914778"/>
+<rect x="283.714" y="-25.5703" width="88.4286" height="88.4286" rx="9.75764" stroke="#CBD5E1" stroke-width="0.914778"/>
+<rect x="18.4287" y="62.8574" width="88.4286" height="88.4286" rx="9.75764" stroke="#CBD5E1" stroke-width="0.914778"/>
+<rect x="106.857" y="62.8574" width="88.4286" height="88.4286" rx="9.75764" stroke="#CBD5E1" stroke-width="0.914778"/>
+<rect x="195.286" y="62.8574" width="88.4286" height="88.4286" rx="9.75764" stroke="#CBD5E1" stroke-width="0.914778"/>
+<rect x="283.714" y="62.8574" width="88.4286" height="88.4286" rx="9.75764" stroke="#CBD5E1" stroke-width="0.914778"/>
+<rect x="18.4287" y="151.285" width="88.4286" height="88.4286" rx="9.75764" stroke="#CBD5E1" stroke-width="0.914778"/>
+<rect x="106.857" y="151.285" width="88.4286" height="88.4286" rx="9.75764" stroke="#CBD5E1" stroke-width="0.914778"/>
+<rect x="195.286" y="151.285" width="88.4286" height="88.4286" rx="9.75764" stroke="#CBD5E1" stroke-width="0.914778"/>
+<rect x="283.714" y="151.285" width="88.4286" height="88.4286" rx="9.75764" stroke="#CBD5E1" stroke-width="0.914778"/>
+<rect x="18.4287" y="239.715" width="88.4286" height="88.4286" rx="9.75764" stroke="#CBD5E1" stroke-width="0.914778"/>
+<rect x="106.857" y="239.715" width="88.4286" height="88.4286" rx="9.75764" stroke="#CBD5E1" stroke-width="0.914778"/>
+<rect x="195.286" y="239.715" width="88.4286" height="88.4286" rx="9.75764" stroke="#CBD5E1" stroke-width="0.914778"/>
+<rect x="283.714" y="239.715" width="88.4286" height="88.4286" rx="9.75764" stroke="#CBD5E1" stroke-width="0.914778"/>
+<rect x="18.4287" y="328.143" width="88.4286" height="88.4286" rx="9.75764" stroke="#CBD5E1" stroke-width="0.914778"/>
+<rect x="106.857" y="328.143" width="88.4286" height="88.4286" rx="9.75764" stroke="#CBD5E1" stroke-width="0.914778"/>
+<rect x="195.286" y="328.143" width="88.4286" height="88.4286" rx="9.75764" stroke="#CBD5E1" stroke-width="0.914778"/>
+<rect x="283.714" y="328.143" width="88.4286" height="88.4286" rx="9.75764" stroke="#CBD5E1" stroke-width="0.914778"/>
+
+<!-- RED LINE 1 -->
+<g class="glow-1">
+  <path d="M107 269H106V317H107H108V269H107ZM96 328V327H30V328V329H96V328ZM19 317H20V251.5H19H18V317H19ZM8 240.5V239.5H-136.5V240.5V241.5H8V240.5ZM19 251.5H20C20 244.873 14.6274 239.5 8 239.5V240.5V241.5C13.5228 241.5 18 245.977 18 251.5H19ZM30 328V327C24.4772 327 20 322.523 20 317H19H18C18 323.627 23.3726 329 30 329V328ZM107 317H106C106 322.523 101.523 327 96 327V328V329C102.627 329 108 323.627 108 317H107Z" fill="#D91137" opacity="0.25"/>
+  <path d="M107 274 L107 317 Q107 329 96 329 L30 329 Q18 329 18 317 L18 251.5 Q18 239.5 8 239.5 L-20 239.5"
+    fill="none" stroke="#D91137" stroke-width="2" stroke-linecap="round" class="flow-line-1"/>
+  <circle cx="107" cy="269" r="5.333" fill="#D91137" class="pulse-1"/>
+</g>
+
+<!-- RED LINE 2 -->
+<g class="glow-2">
+  <path d="M195 1H194V51.5H195H196V1H195ZM206 62.5V63.5H273V62.5V61.5H206V62.5ZM284 73.5H283V123.5H284H285V73.5H284ZM273 62.5V63.5C278.523 63.5 283 67.9771 283 73.5H284H285C285 66.8726 279.627 61.5 273 61.5V62.5ZM195 51.5H194C194 58.1274 199.373 63.5 206 63.5V62.5V61.5C200.477 61.5 196 57.0228 196 51.5H195Z" fill="#D91137" opacity="0.25"/>
+  <path d="M195 1 L195 51.5 Q195 63.5 206 63.5 L273 63.5 Q285 63.5 284 73.5 L284 123.5"
+    fill="none" stroke="#D91137" stroke-width="2" stroke-linecap="round" class="flow-line-2"/>
+  <circle cx="284" cy="123.5" r="5.333" fill="#D91137" class="pulse-2"/>
+</g>
+</svg>

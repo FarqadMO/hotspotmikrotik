@@ -1,91 +1,844 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
-		<meta name="viewport" content="width=device-width, initial-scale=1"> 
-		<title>Al Maktab Hotspot Login</title>
-		<link rel="stylesheet" type="text/css" href="css/normalize.css" />
-		<link rel="stylesheet" type="text/css" href="css/demo.css" />
-		<link rel="stylesheet" type="text/css" href="css/component.css" />
-		<!--[if IE]>
-		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-		<![endif]-->
-	</head>
-	<body>
-	$(if chap-id)
-	<form name="sendin" action="$(link-login-only)" method="post">
-		<input type="hidden" name="username" />
-		<input type="hidden" name="password" />
-		<input type="hidden" name="dst" value="$(link-status)" />
-		<input type="hidden" name="popup" value="false" />
-	</form>
-	
-	<script type="text/javascript" src="/md5.js"></script>
-	<script type="text/javascript">
-	<!--
-	    function doLogin() {
-		document.sendin.username.value = document.login.username.value;
-		document.sendin.password.value = hexMD5('$(chap-id)' + document.login.password.value + '$(chap-challenge)');
-		document.sendin.submit();
-		return false;
-	    }
-	//-->
-	</script>
-	$(endif)
-		<div class="container demo-1">
-		
-			<div class="content">
-				<div id="large-header" class="large-header">
-					<canvas id="demo-canvas"></canvas>
-					
-					<div class="main-title">
-				
-					<div class="text-center" id="login" style="padding:25px; border: 0px dotted yellow; border-radius: 6px" >
-<p class=" text-center"><img src="img/logo.png">
-<br>
-<br>
-<br></p>
-				
- 	<form class="form-signin " name="login" action="$(link-login-only)" method="post"
-	$(if chap-id) onSubmit="return doLogin()" $(endif)>
-	<input type="hidden" name="dst" value="$(link-status)" />
-	<input type="hidden" name="popup" value="false" />	  
-    <input name="username" type="text" value="$(username)" class="form-control" placeholder="Username"><br>
-    <input type="password" name="password" class="form-control" placeholder="Password">
-    <br>
-	<p class="text-center text-danger">&nbsp; $(if error) $(error) $(endif) &nbsp;</p>     
-    </label> 
-	<input name="submit" type="submit" value="Log In" class="btn btn-lg btn-success btn-block"/>
-  </form><br><br> 
- 
-<div style="padding: 2px; border-top: 1px dotted yellow;">					
-<marquee width="100%" bgcolor="transparent" scrollamount="4">
-<span style="color:orange;">
+<html lang="en" data-theme="dark">
+<head>
+  <script>
+    /* Run before CSS to avoid flash of wrong theme */
+    (function(){
+      var s='';try{s=sessionStorage.getItem('hs-theme')||'';}catch(e){}
+      if(s==='light'||s==='dark'){document.documentElement.setAttribute('data-theme',s);}
+      else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches){
+        document.documentElement.setAttribute('data-theme','light');
+      }
+    })();
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="expires" content="-1">
+  <link rel="icon" type="image/png" href="img/icon-logo.png">
+  <title>Hotspot Login</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-<!--RUNNING TEXT-->
-<strong>Welcome to Al Maktab Cafe</strong>
-</span>
-</marquee>
-</div>	 
-</div>	</div>
-				</div>
-				
-				
-			</div>
-			<!-- Related demos -->
-			
-			
-		</div><!-- /container -->
-		<script src="js/TweenLite.min.js"></script>
-		<script src="js/EasePack.min.js"></script>
-		<script src="js/rAF.js"></script>
-		<script src="js/demo-1.js"></script>
+    /* ── Dark theme (default) ──────────────────────────── */
+    :root, [data-theme="dark"] {
+      --bg:           #020617;
+      --red:          #c50f30;
+      --red-dark:     #9a0c26;
+      --input-bd:     #334155;
+      --text:         #ffffff;
+      --text-dim:     #94a3b8;
+      --card-bg:      rgba(255,255,255,0.05);
+      --card-bd:      rgba(255,255,255,0.15);
+      --title-color:  rgba(255,255,255,0.65);
+      --title-shadow: 0 0 24px rgba(255,255,255,0.3), 0 0 16px rgba(255,255,255,0.15);
+      --glow-1:       rgba(217,17,55,0.14);
+      --glow-2:       rgba(217,17,55,0.22);
+      --icon-color:   #64748b;
+      --wifi-color:   #ffffff;
+      --error-color:  #f93939;
+      --toggle-bg:    rgba(255,255,255,0.08);
+      --toggle-bd:    rgba(255,255,255,0.15);
+    }
 
-<script type="text/javascript">
-<!--
-  document.login.username.focus();
-//-->
-</script>		
-	</body>
+    /* ── Light theme ───────────────────────────────────── */
+    [data-theme="light"] {
+      --bg:           #f1f5f9;
+      --red:          #c50f30;
+      --red-dark:     #9a0c26;
+      --input-bd:     #cbd5e1;
+      --text:         #0f172a;
+      --text-dim:     #475569;
+      --card-bg:      rgba(255,255,255,0.85);
+      --card-bd:      rgba(15,23,42,0.10);
+      --title-color:  #0f172a;
+      --title-shadow: none;
+      --glow-1:       rgba(197,15,48,0.07);
+      --glow-2:       rgba(197,15,48,0.10);
+      --icon-color:   #94a3b8;
+      --wifi-color:   #1e293b;
+      --error-color:  #c50f30;
+      --toggle-bg:    rgba(15,23,42,0.06);
+      --toggle-bd:    rgba(15,23,42,0.12);
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      color: var(--text);
+      overflow: hidden;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    body { display: flex; align-items: center; justify-content: center; }
+
+    /* Screen wrapper */
+    .screen {
+      position: relative;
+      width: 100%;
+      max-width: 390px;
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+      background: var(--bg);
+      transition: background 0.3s;
+    }
+
+    /* Grid background */
+    .grid-bg {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 430px;
+      pointer-events: none;
+    }
+    /* Dark grid */
+    .grid-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='88' height='88'%3E%3Crect x='.5' y='.5' width='87' height='87' fill='none' stroke='%23575369' stroke-width='.9' rx='9.7'/%3E%3C/svg%3E");
+      background-size: 88px 88px;
+      -webkit-mask-image: radial-gradient(ellipse 90% 90% at 50% 0%, black 15%, transparent 65%);
+              mask-image: radial-gradient(ellipse 90% 90% at 50% 0%, black 15%, transparent 65%);
+    }
+    /* Light grid override */
+    [data-theme="light"] .grid-bg::before {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='88' height='88'%3E%3Crect x='.5' y='.5' width='87' height='87' fill='none' stroke='%2394a3b8' stroke-width='.9' rx='9.7'/%3E%3C/svg%3E");
+    }
+
+    /* Glow blobs */
+    .glow-1 {
+      position: absolute;
+      width: 500px; height: 500px;
+      top: -260px; right: -160px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--glow-1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .glow-2 {
+      position: absolute;
+      width: 200px; height: 200px;
+      top: 50px; right: -40px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--glow-2) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* ── Theme toggle button ────────────────────────────── */
+    .theme-toggle {
+      position: absolute;
+      top: 20px; left: 20px;
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      border: 1px solid var(--toggle-bd);
+      background: var(--toggle-bg);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; z-index: 10;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.2s, border-color 0.2s;
+      color: var(--icon-color);
+    }
+    .theme-toggle:hover { background: rgba(197,15,48,0.12); border-color: rgba(197,15,48,0.30); }
+
+    /* In dark mode show sun (→ switch to light); in light mode show moon (→ switch to dark) */
+    [data-theme="dark"]  .icon-sun  { display: block; }
+    [data-theme="dark"]  .icon-moon { display: none;  }
+    [data-theme="light"] .icon-moon { display: block; }
+    [data-theme="light"] .icon-sun  { display: none;  }
+
+    /* Decorative red circuit trace */
+    .deco-wrapper {
+      position: absolute;
+      top: 0; right: 0;
+      pointer-events: none;
+      z-index: 1;
+	  margin-bottom:4px;
+    }
+
+    .deco-svg {
+      position: relative;
+      display: block;
+      pointer-events: none;
+      -webkit-mask-image: radial-gradient(
+        circle at center,
+        black 0%,
+        black 50%,
+        black 65%,
+        rgba(0,0,0,0.5) 80%,
+        rgba(0,0,0,0.15) 90%,
+        transparent 96%
+      );
+      mask-image: radial-gradient(
+        circle at center,
+        black 0%,
+        black 50%,
+        black 65%,
+        rgba(0,0,0,0.5) 80%,
+        rgba(0,0,0,0.15) 90%,
+        transparent 96%
+      );
+    }
+
+    .deco-blur-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(
+        circle at center,
+        rgba(2,6,23,0) 0%,
+        rgba(2,6,23,0) 55%,
+        rgba(2,6,23,0.4) 68%,
+        rgba(2,6,23,0.3) 82%,
+        rgba(2,6,23,0.1) 92%
+      );
+      backdrop-filter: blur(2.5px);
+      -webkit-backdrop-filter: blur(2.5px);
+      -webkit-mask-image: radial-gradient(
+        circle at center,
+        transparent 0%,
+        transparent 55%,
+        black 65%,
+        black 85%,
+        rgba(0,0,0,0.3) 95%
+      );
+      mask-image: radial-gradient(
+        circle at center,
+        transparent 0%,
+        transparent 55%,
+        black 65%,
+        black 85%,
+        rgba(0,0,0,0.3) 95%
+      );
+    }
+
+    [data-theme="light"] .deco-blur-overlay {
+      background: radial-gradient(
+        circle at center,
+        rgba(241,245,249,0) 0%,
+        rgba(241,245,249,0) 55%,
+        rgba(241,245,249,0.35) 70%,
+        rgba(241,245,249,0.2) 85%,
+        rgba(241,245,249,0) 100%
+      );
+    }
+
+    /* Logo cards */
+    .logo-cards {
+      position: absolute;
+      top: 138px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      z-index: 2;
+    }
+
+    .logo-card {
+      width: 115px;
+      height: 115px;
+      border-radius: 19px;
+      border: none;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      overflow: hidden;
+      position: relative;
+      isolation: isolate;
+      transition: box-shadow 0.3s;
+    }
+
+    /* ── Gradient border (mask technique — no extra HTML needed) ── */
+    .logo-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 19px;
+      padding: 1.5px;
+      background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0.80) 0%,
+        rgba(255,255,255,0.06) 40%,
+        rgba(180,180,255,0.30) 70%,
+        rgba(255,255,255,0.50) 100%
+      );
+      -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+      mask-composite: exclude;
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    /* ── Specular / gloss highlight overlay ── */
+    .logo-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 19px;
+      background:
+        radial-gradient(ellipse 90px 70px at 28% 18%, rgba(255,255,255,0.65) 0%, rgba(255,255,255,0.28) 40%, rgba(255,255,255,0.10) 60%, transparent 75%),
+        radial-gradient(ellipse 55px 42px at 76% 84%, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.15) 45%, transparent 70%),
+        linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 30%, transparent 50%, rgba(0,0,0,0.12) 100%),
+        radial-gradient(ellipse 110% 110% at 50% 50%, transparent 0%, transparent 60%, rgba(0,0,0,0.08) 85%, rgba(0,0,0,0.15) 100%);
+      pointer-events: none;
+      mix-blend-mode: screen;
+      z-index: 2;
+      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.15));
+    }
+
+    /* ── Dark-theme shadows (7 outer + 4 inner) ── */
+    [data-theme="dark"] .logo-card {
+      box-shadow:
+        /* outer drop shadows */
+        0 0 0 1px rgba(255,255,255,0.06),
+        0 2px  6px rgba(0,0,0,0.50),
+        0 4px 16px rgba(0,0,0,0.42),
+        0 8px 32px rgba(0,0,0,0.32),
+        0 0  80px rgba(60,60,140,0.20),
+        0 0 132px rgba(255,255,255,0.05),
+        0 0  16px rgba(255,255,255,0.22),
+        /* inner shadows */
+        inset  16px  16px 37px rgba(255,255,255,0.10),
+        inset -16px -16px 28px rgba(20,20,50,0.22),
+        inset 0 -3px 10px rgba(0,0,0,0.28),
+        inset 0  2px  6px rgba(255,255,255,0.14);
+    }
+    [data-theme="dark"] .logo-card:last-child {
+      margin-left: -17px;
+      box-shadow:
+        -11px 0  32px rgba(8,6,24,0.82),
+        0 2px  6px rgba(0,0,0,0.50),
+        0 4px 16px rgba(0,0,0,0.42),
+        0 8px 32px rgba(0,0,0,0.38),
+        0 12px 48px rgba(0,0,0,0.28),
+        0 0  80px rgba(60,60,140,0.20),
+        0 0 132px rgba(255,255,255,0.05),
+        0 0  16px rgba(255,255,255,0.22),
+        inset  16px  16px 37px rgba(255,255,255,0.10),
+        inset -16px -16px 28px rgba(20,20,50,0.42),
+        inset 0 -6px 16px rgba(0,0,0,0.45),
+        inset 0  2px  6px rgba(255,255,255,0.14),
+        inset 0  0  40px rgba(0,0,0,0.18);
+    }
+
+    /* ── Light-theme shadows ── */
+    [data-theme="light"] .logo-card {
+      box-shadow:
+        0 1px  4px rgba(0,0,0,0.08),
+        0 4px 16px rgba(0,0,0,0.09),
+        0 8px 32px rgba(0,0,0,0.06),
+        0 0  40px rgba(100,100,200,0.06),
+        inset  16px  16px 37px rgba(255,255,255,0.72),
+        inset -16px -16px 28px rgba(0,0,0,0.04),
+        inset 0 -3px 10px rgba(0,0,0,0.06),
+        inset 0  2px  6px rgba(255,255,255,0.85);
+    }
+    [data-theme="light"] .logo-card:last-child {
+      margin-left: -17px;
+      box-shadow:
+        -8px 0 20px rgba(0,0,0,0.10),
+        0 1px  4px rgba(0,0,0,0.08),
+        0 4px 16px rgba(0,0,0,0.12),
+        0 8px 32px rgba(0,0,0,0.10),
+        0 12px 48px rgba(0,0,0,0.08),
+        inset  16px  16px 37px rgba(255,255,255,0.72),
+        inset -16px -16px 28px rgba(0,0,0,0.08),
+        inset 0 -6px 16px rgba(0,0,0,0.12),
+        inset 0  2px  6px rgba(255,255,255,0.85),
+        inset 0  0  40px rgba(0,0,0,0.06);
+    }
+
+    .logo-card img {
+      width: 100%; height: 100%;
+      object-fit: fill;
+      display: block;
+    }
+
+    [data-theme="dark"]  .logo-light { display: none; }
+    [data-theme="dark"]  .logo-dark  { display: block; }
+    [data-theme="light"] .logo-dark  { display: none; }
+    [data-theme="light"] .logo-light { display: block; }
+
+    /* Bottom form panel */
+    .form-panel {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 0 24px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+	  direction: rtl;;
+	  z-index: 10;
+    }
+
+    .form-header { display: flex; flex-direction: column; gap: 10px; text-align: center; }
+
+    .form-title {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      color: var(--title-color);
+      text-shadow: var(--title-shadow);
+      transition: color 0.3s, text-shadow 0.3s;
+    }
+
+    .form-subtitle {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+
+    /* Inputs */
+    .inputs { display: flex; flex-direction: column; gap: 12px; }
+
+    .input-wrap {
+      display: flex;
+      align-items: center;
+      height: 64px;
+      border: 1px solid var(--input-bd);
+      border-radius: 10px;
+      padding: 0 16px;
+      gap: 10px;
+      background: transparent;
+      transition: border-color 0.2s;
+    }
+
+    .input-wrap:focus-within { border-color: rgba(197,15,48,0.5); }
+
+    .input-wrap input {
+      flex: 1;
+      background: none;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 500;
+      font-family: inherit;
+      direction: ltr;
+      min-width: 0;
+      transition: color 0.3s;
+    }
+
+    .country-code-input {
+      flex: 0 0 auto !important;
+      width: 48px;
+      text-align: center;
+      font-weight: 600;
+      margin-left: -6px;
+    }
+
+    .country-flag {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      margin-left: -10px;
+    }
+
+    #pwdInput {
+      direction: rtl;
+      text-align: right;
+    }
+
+    .input-wrap input::placeholder { color: var(--icon-color); }
+
+    /* Icons use currentColor so they follow --icon-color */
+    .input-icon { flex-shrink: 0; width: 20px; height: 20px; color: var(--icon-color); transition: color 0.3s; }
+
+    .input-divider {
+      width: 1px; height: 36px;
+      background: var(--input-bd);
+      flex-shrink: 0;
+      transition: background 0.3s;
+    }
+
+    .eye-btn {
+      background: none; border: none; cursor: pointer;
+      padding: 2px; color: var(--icon-color);
+      display: flex; align-items: center; flex-shrink: 0;
+      -webkit-tap-highlight-color: transparent;
+      transition: color 0.3s;
+    }
+
+    /* Error */
+    .error-msg {
+      color: var(--error-color);
+      font-size: 12px;
+      font-weight: 500;
+      text-align: center;
+      min-height: 16px;
+      line-height: 1.4;
+    }
+
+    /* Login button */
+    .btn-login {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 64px;
+      border: 1.5px solid rgba(255,255,255,0.2);
+      border-radius: 12px;
+      background: var(--red-dark);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      font-family: inherit;
+      text-shadow: 0 0 16px rgba(255,255,255,0.8);
+      box-shadow:
+        0  4px  12px rgba(10,0,2,0.10),
+        0 16px 132px rgba(217,17,55,0.50),
+        inset 0 -4px 40px rgba(255,255,255,0.07),
+        inset 0  0   24px rgba(255,0,0,0.30);
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.15s, transform 0.1s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-login::after {
+      content: '';
+      position: absolute; inset: 0;
+      border-radius: inherit;
+      box-shadow: inset 0 -4px 32px rgba(255,255,255,0.1), inset 0 -4px 24px rgba(255,255,255,0.2);
+      pointer-events: none;
+    }
+
+    .btn-login:hover  { background: var(--red); }
+    .btn-login:active { transform: scale(0.98); }
+
+    /* Landing panel */
+    .landing-panel {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 0 24px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 73px;
+      direction: rtl;
+      z-index: 10;
+    }
+
+    .landing-panel.hidden { display: none; }
+
+    .landing-header {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      align-items: center;
+      text-align: center;
+    }
+
+    .landing-title {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      color: var(--title-color);
+      text-shadow: var(--title-shadow);
+      transition: color 0.3s, text-shadow 0.3s;
+    }
+
+    .landing-description {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+
+    .landing-logos {
+      height: 40px;
+      width: 89px;
+      position: relative;
+    }
+
+    .landing-logos img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .landing-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 17px;
+      width: 100%;
+    }
+
+    .landing-cta-text {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-dim);
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    .btn-free {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 64px;
+      border: 1.5px solid rgba(255,255,255,0.2);
+      border-radius: 12px;
+      background: var(--red);
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      font-family: inherit;
+      box-shadow:
+        0  4px  12px rgba(255,255,255,0.20),
+        0 16px 132px rgba(217,17,55,0.10),
+        0  0   16px rgba(217,17,55,0.20),
+        0 12px  24px rgba(217,17,55,0.10),
+        0 16px  53px rgba(217,17,55,0.07),
+        0 16px  54px rgba(217,17,55,0.05),
+        0 16px  70px rgba(217,17,55,0.05),
+        0  0   24px rgba(217,17,55,0.10);
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.15s, transform 0.1s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-free::after {
+      content: '';
+      position: absolute; inset: 0;
+      border-radius: inherit;
+      box-shadow:
+        inset 0 -4px 40px rgba(255,255,255,0.07),
+        inset 0 -4px 32px rgba(255,255,255,0.1),
+        inset 0 -4px 24px rgba(255,255,255,0.2),
+        inset 0  0  24px rgba(255,0,0,0.3);
+      pointer-events: none;
+    }
+
+    .btn-free:hover  { background: #d11335; }
+    .btn-free:active { transform: scale(0.98); }
+
+    .btn-secondary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 52px;
+      border: none;
+      border-radius: 12px;
+      background: transparent;
+      color: var(--text);
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: inherit;
+      text-shadow: 0 0 24px rgba(255,255,255,0.2);
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.15s, transform 0.1s;
+    }
+
+    .btn-secondary:hover  { background: rgba(197,15,48,0.08); }
+    .btn-secondary:active { transform: scale(0.98); }
+  </style>
+</head>
+<body>
+
+$(if chap-id)
+<form name="sendin" action="$(link-login-only)" method="post" style="display:none">
+  <input type="hidden" name="username">
+  <input type="hidden" name="password">
+  <input type="hidden" name="dst"   value="$(link-status)">
+  <input type="hidden" name="popup" value="false">
+</form>
+<script src="/md5.js"></script>
+<script>
+  function doLogin() {
+    document.sendin.username.value = document.login.username.value;
+    document.sendin.password.value = hexMD5('$(chap-id)' + document.login.password.value + '$(chap-challenge)');
+    document.sendin.submit();
+    return false;
+  }
+</script>
+$(endif)
+
+<div class="screen">
+
+
+  <!-- Decorative top-right background -->
+  <div class="deco-wrapper">
+    <img src="img/mask-bg.svg" class="deco-svg" alt="">
+    <div class="deco-blur-overlay"></div>
+  </div>
+
+  <!-- Theme toggle (top-left) -->
+  <button class="theme-toggle" onclick="toggleTheme()" type="button" aria-label="Toggle theme">
+    <!-- Sun: shown in dark mode → click to go light -->
+    <svg class="icon-sun" width="18" height="18" viewBox="0 0 18 18" fill="none">
+      <circle cx="9" cy="9" r="3.5" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M9 1.5V3M9 15V16.5M1.5 9H3M15 9H16.5M3.7 3.7L4.75 4.75M13.25 13.25L14.3 14.3M3.7 14.3L4.75 13.25M13.25 4.75L14.3 3.7"
+            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    <!-- Moon: shown in light mode → click to go dark -->
+    <svg class="icon-moon" width="18" height="18" viewBox="0 0 18 18" fill="none">
+      <path d="M15.5 10.5A7 7 0 0 1 7.5 2.5a7 7 0 0 0 8 8z"
+            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+
+  <!-- Logo cards -->
+  <div class="logo-cards">
+    <div class="logo-card">
+      <img class="logo-light" src="img/supercell-logo.png" alt="Supercell Logo">
+      <img class="logo-dark"  src="img/supercell-logo-dark.png" alt="Supercell Logo">
+    </div>
+    <div class="logo-card">
+      <img src="img/halab-logo.jpg" alt="Halab Logo">
+    </div>
+
+	<!-- <img src="img/logos-group.png" alt="Logos" style="width: 100%; height: auto;"> -->
+  </div>
+
+
+  <!-- Landing panel -->
+  <div class="landing-panel" id="landingPanel">
+    <div class="landing-header">
+      <h1 class="landing-title">سوبرسيل وبيت حلب</h1>
+      <p class="landing-description">
+        سوبرسيل، أحد مزودي خدمات الإنترنت الضوئي الرائدة بالعراق، تتعاون مع مطعم بيت حلب لتقديم تجربة ضيافة وإنترنت فريدة لزيارتكم
+      </p>
+      <div class="landing-logos">
+        <img src="https://www.figma.com/api/mcp/asset/0c6b939e-d544-4c68-927f-e2e9ed48a613" alt="Logos">
+      </div>
+    </div>
+
+    <div class="landing-actions">
+      <p class="landing-cta-text">اضغط وجرب نص ساعة إنترنت ببلاش!</p>
+      <button type="button" class="btn-free" onclick="connectFree()">كنك بلاش</button>
+      <button type="button" class="btn-secondary" onclick="showLogin()">تسجيل الدخول</button>
+    </div>
+  </div>
+
+  <!-- Login form -->
+  <form name="login"
+        action="$(link-login-only)"
+        method="post"
+        $(if chap-id) onsubmit="return doLogin()" $(endif)
+        style="display: none;"
+        id="loginForm">
+
+    <input type="hidden" name="dst"   value="$(link-status)">
+    <input type="hidden" name="popup" value="false">
+
+    <div class="form-panel">
+
+      <div class="form-header">
+        <h1 class="form-title">اهلا بعودتك 👋</h1>
+        <p class="form-subtitle">ادخل معلومات الاشتراك الخاص بك واستمتع بخدمة الانترنت</p>
+      </div>
+
+      <div class="inputs">
+        <!-- Username -->
+        <div class="input-wrap">
+          <svg class="input-icon" viewBox="0 0 20 20" fill="none">
+            <circle cx="10" cy="7" r="3.5" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M4 16.5C4 13.5 6.5 11 10 11C13.5 11 16 13.5 16 16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <div class="input-divider"></div>
+          <input name="username"
+                 type="text"
+                 value=""
+                 placeholder="يوزر الاشتراك"
+                 autocomplete="username"
+                 autofocus style="direction:rtl;">
+        </div>
+
+        <!-- Password -->
+        <div class="input-wrap">
+          
+          
+          <input type="password"
+                 id="pwdInput"
+                 name="password"
+                 placeholder="كلمة المرور"
+                 autocomplete="current-password">
+			<div class="input-divider"></div>
+		<button type="button" class="eye-btn" onclick="togglePwd()" aria-label="Toggle password visibility">
+            <svg id="eyeOpen" class="input-icon" viewBox="0 0 20 20" fill="none">
+              <ellipse cx="10" cy="10" rx="7.5" ry="5.5" stroke="currentColor" stroke-width="1.5"/>
+              <circle  cx="10" cy="10" r="2.5"            stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+            <svg id="eyeOff" class="input-icon" viewBox="0 0 20 20" fill="none" style="display: none;">
+              <path d="M3 3L17 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M10 6.5C11.7949 6.5 13.25 7.95507 13.25 9.75C13.25 10.3265 13.0881 10.8653 12.8073 11.3231M6.75 9.75C6.75 7.95507 8.20507 6.5 10 6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M6.5 15C4.5 14 3 12 2.5 10C3 8 5 5.5 10 5.5M13.5 15C15.5 14 17 12 17.5 10C17.2 9.2 16.5 8 15 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Error message -->
+        <div class="error-msg">$(if error)$(error)$(endif)</div>
+      </div>
+
+      <button type="submit" class="btn-login">تسجيل الدخول</button>
+    </div>
+  </form>
+
+</div>
+
+<script>
+  function toggleTheme() {
+    var html = document.documentElement;
+    var next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    html.setAttribute('data-theme', next);
+    try { sessionStorage.setItem('hs-theme', next); } catch(e) {}
+  }
+
+  function togglePwd() {
+    var i = document.getElementById('pwdInput');
+    var eyeOpen = document.getElementById('eyeOpen');
+    var eyeOff = document.getElementById('eyeOff');
+    
+    if (i.type === 'password') {
+      i.type = 'text';
+      eyeOpen.style.display = 'none';
+      eyeOff.style.display = 'block';
+    } else {
+      i.type = 'password';
+      eyeOpen.style.display = 'block';
+      eyeOff.style.display = 'none';
+    }
+  }
+
+  function showLogin() {
+    document.getElementById('landingPanel').classList.add('hidden');
+    document.getElementById('loginForm').style.display = 'block';
+  }
+
+  function showLanding() {
+    document.getElementById('landingPanel').classList.remove('hidden');
+    document.getElementById('loginForm').style.display = 'none';
+  }
+
+  function connectFree() {
+    // TODO: Implement free connection logic
+    // For now, just submit with a free/guest username
+    var form = document.login;
+    if (form) {
+      form.username.value = 'free-guest';
+      form.password.value = '';
+      form.submit();
+    }
+  }
+</script>
+
+</body>
 </html>
