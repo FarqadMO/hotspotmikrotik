@@ -20,6 +20,8 @@ Upload these files to your MikroTik router's hotspot folder:
 - `error.html`
 - `md5.js`
 - `img/` folder with logos
+- `fonts/` Folder with fonts
+- `img/` folder with images
 
 ## Pages
 

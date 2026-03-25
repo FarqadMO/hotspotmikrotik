@@ -19,6 +19,14 @@
   <link rel="icon" type="image/png" href="img/icon-logo.png">
   <title>Hotspot Login</title>
   <style>
+    @font-face {
+      font-family: 'Cairo';
+      src: url('fonts/Cairo/Cairo-VariableFont_slnt,wght.ttf') format('truetype-variations');
+      font-weight: 200 1000;
+      font-style: normal;
+      font-display: swap;
+    }
+    
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     /* ── Dark theme (default) ──────────────────────────── */
@@ -66,7 +74,7 @@
     html, body {
       height: 100%;
       background: var(--bg);
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      font-family: 'Cairo', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
       color: var(--text);
       overflow: hidden;
       transition: background 0.3s, color 0.3s;
@@ -148,6 +156,28 @@
     [data-theme="dark"]  .icon-moon { display: none;  }
     [data-theme="light"] .icon-moon { display: block; }
     [data-theme="light"] .icon-sun  { display: none;  }
+
+    /* Red overlay for dark theme */
+    .bg-overlay {
+      position: absolute;
+      top: -700px;
+      left: 0;
+      width: 100%;
+      height: calc(100% + 400px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    
+    [data-theme="dark"] .bg-overlay {
+      opacity: 1;
+    }
+    
+    .bg-overlay img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
 
     /* Decorative red circuit trace */
     .deco-wrapper {
@@ -241,7 +271,7 @@
       height: 115px;
       border-radius: 19px;
       border: none;
-      background: transparent;
+      background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.06) 100%);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -249,7 +279,16 @@
       overflow: hidden;
       position: relative;
       isolation: isolate;
-      transition: box-shadow 0.3s;
+      transition: box-shadow 0.3s, background 0.3s;
+    }
+    
+    /* Theme-specific card backgrounds */
+    [data-theme="dark"] .logo-card {
+      background: linear-gradient(135deg, rgba(30,30,50,0.85) 0%, rgba(15,15,30,0.95) 100%);
+    }
+    
+    [data-theme="light"] .logo-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(248,250,252,0.98) 100%);
     }
 
     /* ── Gradient border (mask technique — no extra HTML needed) ── */
@@ -358,9 +397,24 @@
     }
 
     .logo-card img {
-      width: 100%; height: 100%;
+      width: 100%;
+      height: 100%;
       object-fit: fill;
       display: block;
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* Supercell SVG logo specific styling */
+    .logo-card:first-child img {
+      width: 80%;
+      height: 80%;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 8px rgba(217,17,55,0.3));
+    }
+    
+    [data-theme="light"] .logo-card:first-child img {
+      filter: drop-shadow(0 2px 6px rgba(197,15,48,0.25));
     }
 
     [data-theme="dark"]  .logo-light { display: none; }
@@ -671,6 +725,10 @@ $(endif)
 
 <div class="screen">
 
+  <!-- Red overlay background (dark theme only) -->
+  <div class="bg-overlay">
+    <img src="img/bg-overlay.svg" alt="">
+  </div>
 
   <!-- Decorative top-right background -->
   <div class="deco-wrapper">
@@ -697,8 +755,8 @@ $(endif)
   <!-- Logo cards -->
   <div class="logo-cards">
     <div class="logo-card">
-      <img class="logo-light" src="img/supercell-logo.png" alt="Supercell Logo">
-      <img class="logo-dark"  src="img/supercell-logo-dark.png" alt="Supercell Logo">
+      <img class="logo-light" src="img/supercell.svg" alt="Supercell Logo">
+      <img class="logo-dark" src="img/supercell-dark.svg" alt="Supercell Logo">
     </div>
     <div class="logo-card">
       <img src="img/halab-logo.jpg" alt="Halab Logo">
