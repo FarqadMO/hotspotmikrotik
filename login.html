@@ -701,6 +701,315 @@
 
     .btn-secondary:hover  { background: rgba(197,15,48,0.08); }
     .btn-secondary:active { transform: scale(0.98); }
+
+    /* ═══════════════════════════════════════════════════════════
+       DESKTOP TWO-COLUMN SPLIT LAYOUT  (≥ 768 px)
+       ═══════════════════════════════════════════════════════════ */
+    @media (min-width: 768px) {
+
+      html, body {
+        overflow: auto;
+        height: 100%;
+      }
+
+      body {
+        display: flex;
+        align-items: stretch;
+        justify-content: flex-start;
+        height: 100vh;
+        height: 100dvh;
+        overflow: hidden;
+      }
+
+      /* ── Left branding panel ─────────────────────────── */
+      .desktop-left {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 50%;
+        position: relative;
+        overflow: hidden;
+        background: var(--bg);
+      }
+
+      /* grid fills entire left panel */
+      .desktop-left .grid-bg {
+        position: absolute;
+        inset: 0;
+        height: 100%;
+        pointer-events: none;
+      }
+      .desktop-left .grid-bg::before {
+        -webkit-mask-image: radial-gradient(ellipse 90% 90% at 50% 40%, black 10%, transparent 70%);
+                mask-image: radial-gradient(ellipse 90% 90% at 50% 40%, black 10%, transparent 70%);
+      }
+
+      /* glow blobs */
+      .desktop-left .glow-1 {
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        width: 700px; height: 700px;
+        right: auto;
+      }
+      .desktop-left .glow-2 {
+        top: 20%; right: 0;
+        width: 260px; height: 260px;
+      }
+
+      /* bg-overlay fills left panel */
+      .desktop-left .bg-overlay {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+      }
+      .desktop-left .bg-overlay img {
+        width: 100%; height: 100%;
+        object-fit: cover;
+        opacity: 0.55;
+      }
+
+      /* Theme toggle – top-left of left panel */
+      .desktop-left .theme-toggle {
+        position: absolute;
+        top: 24px; left: 24px;
+        z-index: 20;
+      }
+
+      /* ── Group: hero centered in left panel ── */
+      .desktop-left-group {
+        position: absolute;
+        top: 45%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: min(390px, 90%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 32px;
+        z-index: 3;
+      }
+
+      /* ── Hero: deco SVG + logo cards ── */
+      .desktop-left-hero {
+        position: relative;
+        width: 100%;
+        height: 300px;
+        overflow: visible;
+        pointer-events: none;
+        flex-shrink: 0;
+      }
+
+      /* Deco: covers the entire left panel, fades at all edges */
+      .desktop-left .deco-wrapper {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        pointer-events: none;
+        overflow: hidden;
+        /* Soft radial fade — centre stays visible, edges dissolve */
+        -webkit-mask-image: radial-gradient(
+          ellipse 90% 85% at 50% 42%,
+          black 20%,
+          rgba(0,0,0,0.65) 48%,
+          transparent 72%
+        );
+        mask-image: radial-gradient(
+          ellipse 90% 85% at 50% 42%,
+          black 20%,
+          rgba(0,0,0,0.65) 48%,
+          transparent 72%
+        );
+      }
+      /* SVG fills the panel; remove the per-img circle mask (wrapper handles it) */
+      .desktop-left .deco-wrapper .deco-svg {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center top;
+        -webkit-mask-image: none !important;
+        mask-image: none !important;
+      }
+      .desktop-left .deco-wrapper .deco-blur-overlay {
+        -webkit-mask-image: none;
+        mask-image: none;
+      }
+
+      /* Hero: sized container for logo cards only (deco is now panel-level) */
+      .desktop-left-hero {
+        position: relative;
+        width: 100%;
+        height: 240px;
+        flex-shrink: 0;
+        pointer-events: none;
+      }
+
+      /* Logo cards: centered inside the hero box */
+      .desktop-left-hero .logo-cards {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 3;
+        pointer-events: auto;
+      }
+      .desktop-left-hero .logo-card {
+        width: 180px;
+        height: 180px;
+      }
+
+      /* ── Brand block inside right landing panel ── */
+      .desktop-landing-brand {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;   /* RTL: align right */
+        gap: 10px;
+        padding-bottom: 28px;
+        margin-bottom: 8px;
+        position: relative;
+      }
+      /* coloured left-border accent (feels like a card header) */
+      .desktop-landing-brand::after {
+        content: '';
+        position: absolute;
+        bottom: 0; left: 0; right: 0;
+        height: 1px;
+        background: linear-gradient(90deg,
+          transparent 0%,
+          var(--card-bd) 30%,
+          var(--card-bd) 70%,
+          transparent 100%
+        );
+      }
+      .desktop-brand-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 12px;
+        border-radius: 100px;
+        border: 1px solid rgba(34,197,94,0.35);
+        background: rgba(34,197,94,0.08);
+        font-size: 11px;
+        font-weight: 700;
+        color: #22c55e;
+        letter-spacing: 0.3px;
+      }
+      .desktop-brand-badge svg { flex-shrink: 0; }
+      .desktop-brand-title {
+        font-size: 26px;
+        font-weight: 900;
+        letter-spacing: -0.5px;
+        color: var(--title-color);
+        text-shadow: var(--title-shadow);
+        line-height: 1.15;
+        text-align: right;
+        width: 100%;
+      }
+      .desktop-brand-subtitle {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--text-dim);
+        line-height: 1.75;
+        text-align: right;
+        width: 100%;
+      }
+
+      /* ── Right form panel ────────────────────────────── */
+      .desktop-right {
+        flex: 0 0 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        background: var(--bg);
+        border-left: 1px solid var(--card-bd);
+        overflow-y: auto;
+        transition: background 0.3s, border-color 0.3s;
+      }
+
+      /* The inner content wrapper in the right panel */
+      .desktop-right-inner {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        max-width: 400px;
+        padding: 40px 36px;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
+
+      /* ── Hide the mobile .screen shell on desktop ─── */
+      .screen { display: none !important; }
+
+      /* ── Desktop landing panel ───────────────────── */
+      .desktop-right .landing-panel {
+        position: static;
+        padding: 0;
+        bottom: auto; left: auto; right: auto;
+        gap: 28px;
+        direction: rtl;
+        align-items: center;
+        text-align: center;
+      }
+      .desktop-right .landing-panel.hidden { display: none; }
+
+      .desktop-right .landing-header {
+        gap: 10px;
+        align-items: center;
+        text-align: center;
+      }
+      .desktop-right .landing-title {
+        font-size: 34px;
+        letter-spacing: -1px;
+        text-align: center;
+      }
+      .desktop-right .landing-description {
+        font-size: 14px;
+        line-height: 1.7;
+        max-width: 300px;
+        text-align: center;
+      }
+      .desktop-right .landing-actions {
+        gap: 12px;
+        align-items: center;
+        width: 100%;
+      }
+      .desktop-right .landing-cta-text {
+        font-size: 13px;
+        text-align: center;
+      }
+
+      /* ── Desktop form panel ──────────────────────── */
+      .desktop-right .form-panel {
+        position: static;
+        padding: 0;
+        bottom: auto; left: auto; right: auto;
+        gap: 24px;
+        direction: rtl;
+      }
+      .desktop-right .form-title {
+        font-size: 34px;
+        letter-spacing: -0.8px;
+      }
+      .desktop-right .form-subtitle {
+        font-size: 14px;
+        line-height: 1.7;
+      }
+      .desktop-right .inputs {
+        gap: 10px;
+      }
+    }
+
+    /* Hide desktop chrome on mobile only */
+    @media (max-width: 767px) {
+      .desktop-left,
+      .desktop-right {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body>
@@ -712,11 +1021,17 @@ $(if chap-id)
   <input type="hidden" name="dst"   value="$(link-status)">
   <input type="hidden" name="popup" value="false">
 </form>
-<script src="/md5.js"></script>
+<script src="md5.js"></script>
 <script>
   function doLogin() {
     document.sendin.username.value = document.login.username.value;
     document.sendin.password.value = hexMD5('$(chap-id)' + document.login.password.value + '$(chap-challenge)');
+    document.sendin.submit();
+    return false;
+  }
+  function doLoginDesktop() {
+    document.sendin.username.value = document.loginDesktop.username.value;
+    document.sendin.password.value = hexMD5('$(chap-id)' + document.loginDesktop.password.value + '$(chap-challenge)');
     document.sendin.submit();
     return false;
   }
@@ -852,6 +1167,152 @@ $(endif)
 
 </div>
 
+<!-- ═══════════════════════════════════════════════════
+     DESKTOP TWO-COLUMN LAYOUT  (hidden on mobile via CSS)
+     ═══════════════════════════════════════════════════ -->
+
+<!-- LEFT: Branding / visual panel -->
+<div class="desktop-left">
+
+  <!-- Full-panel background layers -->
+  <div class="bg-overlay">
+    <img src="img/bg-overlay.svg" alt="">
+  </div>
+  <!-- <div class="grid-bg"></div> -->
+  <div class="glow-1"></div>
+  <div class="glow-2"></div>
+
+  <!-- Deco: full-panel background, fades at edges (desktop only) -->
+  <div class="deco-wrapper">
+    <img src="img/mask-bg.svg" class="deco-svg" alt="">
+    <div class="deco-blur-overlay"></div>
+  </div>
+
+  <!-- Theme toggle -->
+  <button class="theme-toggle" id="desktopThemeToggle" onclick="toggleTheme()" type="button" aria-label="Toggle theme">
+    <svg class="icon-sun" width="18" height="18" viewBox="0 0 18 18" fill="none">
+      <circle cx="9" cy="9" r="3.5" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M9 1.5V3M9 15V16.5M1.5 9H3M15 9H16.5M3.7 3.7L4.75 4.75M13.25 13.25L14.3 14.3M3.7 14.3L4.75 13.25M13.25 4.75L14.3 3.7"
+            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    <svg class="icon-moon" width="18" height="18" viewBox="0 0 18 18" fill="none">
+      <path d="M15.5 10.5A7 7 0 0 1 7.5 2.5a7 7 0 0 0 8 8z"
+            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  <!-- Group: hero + brand text, centered together in the panel -->
+  <div class="desktop-left-group">
+
+    <!-- Hero: logo cards only (deco is now a full-panel background above) -->
+    <div class="desktop-left-hero">
+
+      <!-- Logo cards centered in the hero -->
+      <div class="logo-cards">
+        <div class="logo-card">
+          <img class="logo-light" src="img/supercell.svg" alt="Supercell Logo">
+          <img class="logo-dark" src="img/supercell-dark.svg" alt="Supercell Logo">
+        </div>
+        <div class="logo-card">
+          <img src="img/halab-logo.jpg" alt="Halab Logo">
+        </div>
+      </div>
+
+    </div><!-- /desktop-left-hero -->
+
+  </div><!-- /desktop-left-group -->
+
+</div>
+
+<!-- RIGHT: Form / landing panel -->
+<div class="desktop-right">
+  <div class="desktop-right-inner">
+
+    <!-- Landing panel (desktop) -->
+    <div class="landing-panel" id="desktopLandingPanel">
+
+      <div class="landing-header">
+        <h1 class="landing-title">سوبرسيل وبيت حلب</h1>
+        <p class="landing-description">اتصل بالإنترنت مجاناً أو سجّل دخولك باشتراكك للاستمتاع بخدمة الإنترنت السريعة</p>
+      </div>
+
+      <div class="landing-actions">
+        <p class="landing-cta-text">اضغط وجرب نص ساعة إنترنت ببلاش!</p>
+        <button type="button" class="btn-free" onclick="connectFreeDesktop()">كنك بلاش</button>
+        <button type="button" class="btn-secondary" onclick="showLoginDesktop()">تسجيل الدخول</button>
+      </div>
+
+    </div>
+
+    <!-- Login form (desktop) -->
+    <form name="loginDesktop"
+          action="$(link-login-only)"
+          method="post"
+          $(if chap-id) onsubmit="return doLoginDesktop()" $(endif)
+          style="display: none;"
+          id="desktopLoginForm">
+
+      <input type="hidden" name="dst"   value="$(link-status)">
+      <input type="hidden" name="popup" value="false">
+
+      <div class="form-panel" style="direction:rtl;">
+
+        <div class="form-header" style="text-align:right;align-items:flex-start;">
+          <h1 class="form-title">اهلا بعودتك 👋</h1>
+          <p class="form-subtitle">ادخل معلومات الاشتراك الخاص بك واستمتع بخدمة الانترنت</p>
+        </div>
+
+        <div class="inputs">
+          <!-- Username -->
+          <div class="input-wrap">
+            <svg class="input-icon" viewBox="0 0 20 20" fill="none">
+              <circle cx="10" cy="7" r="3.5" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M4 16.5C4 13.5 6.5 11 10 11C13.5 11 16 13.5 16 16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <div class="input-divider"></div>
+            <input name="username"
+                   type="text"
+                   value=""
+                   placeholder="يوزر الاشتراك"
+                   autocomplete="username"
+                   style="direction:rtl;">
+          </div>
+
+          <!-- Password -->
+          <div class="input-wrap">
+            <input type="password"
+                   id="pwdInputDesktop"
+                   name="password"
+                   placeholder="كلمة المرور"
+                   autocomplete="current-password"
+                   style="direction:rtl;text-align:right;">
+            <div class="input-divider"></div>
+            <button type="button" class="eye-btn" onclick="togglePwdDesktop()" aria-label="Toggle password visibility">
+              <svg id="eyeOpenDesktop" class="input-icon" viewBox="0 0 20 20" fill="none">
+                <ellipse cx="10" cy="10" rx="7.5" ry="5.5" stroke="currentColor" stroke-width="1.5"/>
+                <circle  cx="10" cy="10" r="2.5"            stroke="currentColor" stroke-width="1.5"/>
+              </svg>
+              <svg id="eyeOffDesktop" class="input-icon" viewBox="0 0 20 20" fill="none" style="display:none;">
+                <path d="M3 3L17 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M10 6.5C11.7949 6.5 13.25 7.95507 13.25 9.75C13.25 10.3265 13.0881 10.8653 12.8073 11.3231M6.75 9.75C6.75 7.95507 8.20507 6.5 10 6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M6.5 15C4.5 14 3 12 2.5 10C3 8 5 5.5 10 5.5M13.5 15C15.5 14 17 12 17.5 10C17.2 9.2 16.5 8 15 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Error message -->
+          <div class="error-msg">$(if error)$(error)$(endif)</div>
+        </div>
+
+        <button type="submit" class="btn-login">تسجيل الدخول</button>
+
+        <button type="button" class="btn-secondary" style="margin-top:-12px;" onclick="showLandingDesktop()">← رجوع</button>
+      </div>
+    </form>
+
+  </div>
+</div>
+
 <script>
   function toggleTheme() {
     var html = document.documentElement;
@@ -860,11 +1321,11 @@ $(endif)
     try { sessionStorage.setItem('hs-theme', next); } catch(e) {}
   }
 
+  /* ── Mobile password toggle ── */
   function togglePwd() {
     var i = document.getElementById('pwdInput');
     var eyeOpen = document.getElementById('eyeOpen');
     var eyeOff = document.getElementById('eyeOff');
-    
     if (i.type === 'password') {
       i.type = 'text';
       eyeOpen.style.display = 'none';
@@ -876,26 +1337,52 @@ $(endif)
     }
   }
 
+  /* ── Desktop password toggle ── */
+  function togglePwdDesktop() {
+    var i = document.getElementById('pwdInputDesktop');
+    var eyeOpen = document.getElementById('eyeOpenDesktop');
+    var eyeOff = document.getElementById('eyeOffDesktop');
+    if (i.type === 'password') {
+      i.type = 'text';
+      eyeOpen.style.display = 'none';
+      eyeOff.style.display = 'block';
+    } else {
+      i.type = 'password';
+      eyeOpen.style.display = 'block';
+      eyeOff.style.display = 'none';
+    }
+  }
+
+  /* ── Mobile panel switching ── */
   function showLogin() {
     document.getElementById('landingPanel').classList.add('hidden');
     document.getElementById('loginForm').style.display = 'block';
   }
-
   function showLanding() {
     document.getElementById('landingPanel').classList.remove('hidden');
     document.getElementById('loginForm').style.display = 'none';
   }
 
-  function connectFree() {
-    // TODO: Implement free connection logic
-    // For now, just submit with a free/guest username
-    var form = document.login;
-    if (form) {
-      form.username.value = 'free-guest';
-      form.password.value = '';
-      form.submit();
-    }
+  /* ── Desktop panel switching ── */
+  function showLoginDesktop() {
+    document.getElementById('desktopLandingPanel').classList.add('hidden');
+    document.getElementById('desktopLoginForm').style.display = 'block';
   }
+  function showLandingDesktop() {
+    document.getElementById('desktopLandingPanel').classList.remove('hidden');
+    document.getElementById('desktopLoginForm').style.display = 'none';
+  }
+
+  /* ── Free connect ── */
+  function connectFree() {
+    var form = document.login;
+    if (form) { form.username.value = 'free-guest'; form.password.value = ''; form.submit(); }
+  }
+  function connectFreeDesktop() {
+    var form = document.loginDesktop;
+    if (form) { form.username.value = 'free-guest'; form.password.value = ''; form.submit(); }
+  }
+
 </script>
 
 </body>

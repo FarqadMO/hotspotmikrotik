@@ -124,6 +124,148 @@
       -webkit-tap-highlight-color: transparent;
     }
     .btn-logout:hover { background: var(--red); }
+
+    /* ═══════════════════════════════════════════════════════
+       DESKTOP LAYOUT  (≥ 768 px)  – wider card + bg polish
+       ═══════════════════════════════════════════════════════ */
+    @media (min-width: 768px) {
+      html, body {
+        height: 100%; overflow: hidden;
+      }
+      body {
+        display: flex;
+        align-items: stretch;
+        justify-content: flex-start;
+        height: 100vh; height: 100dvh;
+        padding: 0;
+        background: var(--bg);
+        position: relative;
+      }
+
+      /* subtle full-page grid */
+      body::before {
+        content: '';
+        position: fixed; inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='88' height='88'%3E%3Crect x='.5' y='.5' width='87' height='87' fill='none' stroke='%23575369' stroke-width='.9' rx='9.7'/%3E%3C/svg%3E");
+        background-size: 88px 88px;
+        -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 75%);
+                mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 75%);
+        opacity: 0.25; pointer-events: none; z-index: 0;
+      }
+      [data-theme="light"] body::before {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='88' height='88'%3E%3Crect x='.5' y='.5' width='87' height='87' fill='none' stroke='%2394a3b8' stroke-width='.9' rx='9.7'/%3E%3C/svg%3E");
+        opacity: 0.35;
+      }
+
+      /* ── Left branding panel ─────────────────────── */
+      .desktop-left {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 50%;
+        position: relative;
+        overflow: hidden;
+        background: var(--bg);
+        border-right: 1px solid var(--card-bd);
+        z-index: 1;
+      }
+      .desktop-left-grid {
+        position: absolute; inset: 0; pointer-events: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='88' height='88'%3E%3Crect x='.5' y='.5' width='87' height='87' fill='none' stroke='%23575369' stroke-width='.9' rx='9.7'/%3E%3C/svg%3E");
+        background-size: 88px 88px;
+        -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 10%, transparent 75%);
+                mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 10%, transparent 75%);
+        opacity: 0.6;
+      }
+      [data-theme="light"] .desktop-left-grid {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='88' height='88'%3E%3Crect x='.5' y='.5' width='87' height='87' fill='none' stroke='%2394a3b8' stroke-width='.9' rx='9.7'/%3E%3C/svg%3E");
+      }
+      .desktop-left-glow {
+        position: absolute;
+        width: 480px; height: 480px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(197,15,48,0.10) 0%, transparent 70%);
+        pointer-events: none;
+      }
+      .desktop-brand-wrap {
+        position: relative; z-index: 2;
+        text-align: center;
+        padding: 0 48px;
+        display: flex; flex-direction: column;
+        align-items: center; gap: 20px;
+      }
+      .desktop-brand-icon-wrap {
+        width: 96px; height: 96px; border-radius: 24px;
+        border: 1px solid var(--card-bd);
+        background: var(--card-bg);
+        backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+        display: flex; align-items: center; justify-content: center;
+        box-shadow: 0 0 60px rgba(197,15,48,0.15), 0 8px 32px rgba(0,0,0,0.12);
+      }
+      .desktop-brand-title {
+        font-size: 28px; font-weight: 900;
+        letter-spacing: -0.5px; line-height: 1.2;
+        color: var(--text);
+      }
+      [data-theme="dark"] .desktop-brand-title {
+        text-shadow: 0 0 24px rgba(255,255,255,0.15);
+      }
+      .desktop-brand-sub {
+        font-size: 13px; font-weight: 500;
+        color: var(--text-muted); line-height: 1.7;
+        max-width: 280px;
+      }
+      .desktop-status-badge {
+        display: inline-flex; align-items: center; gap: 8px;
+        padding: 8px 18px; border-radius: 100px;
+        border: 1px solid rgba(34,197,94,0.25);
+        background: rgba(34,197,94,0.08);
+        font-size: 12px; font-weight: 600;
+        color: #22c55e; margin-top: 4px;
+      }
+      .desktop-status-dot {
+        width: 8px; height: 8px; border-radius: 50%;
+        background: #22c55e;
+        box-shadow: 0 0 6px rgba(34,197,94,0.7);
+      }
+
+      /* ── Right stats panel ───────────────────────── */
+      .desktop-right {
+        flex: 0 0 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        z-index: 1;
+        overflow-y: auto;
+      }
+      /* on desktop card sits inside desktop-right */
+      .card {
+        max-width: 340px;
+        width: 100%;
+      }
+      .card-header { padding: 18px 20px 14px; }
+      .greeting { font-size: 15px; }
+      .card-sub { font-size: 12px; }
+      .row { padding: 10px 20px; }
+      .row-label { font-size: 12px; }
+      .row-value { font-size: 13px; }
+      .card-footer { padding: 16px 20px; }
+    }
+
+    /* Hidden on mobile only */
+    @media (max-width: 767px) {
+      .desktop-left,
+      .desktop-brand-wrap,
+      .desktop-left-grid,
+      .desktop-left-glow { display: none; }
+    }
+
+    /* On mobile: desktop-right is transparent wrapper, card shows normally */
+    .desktop-right {
+      display: contents; /* children behave as if directly in body */
+    }
   </style>
   <script>
     $(if advert-pending == 'yes')
@@ -144,6 +286,35 @@
 </head>
 <body $(if advert-pending == 'yes') onload="openAdvert()" $(endif)>
 
+<!-- ═══════════════════════════════════
+     DESKTOP LEFT BRANDING PANEL
+     ═══════════════════════════════════ -->
+<div class="desktop-left">
+  <div class="desktop-left-grid"></div>
+  <div class="desktop-left-glow"></div>
+
+  <div class="desktop-brand-wrap">
+    <div class="desktop-brand-icon-wrap">
+      <svg width="48" height="48" viewBox="0 0 56 56" fill="none" style="color:var(--red)">
+        <path d="M28 44a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" fill="currentColor"/>
+        <path d="M18.5 34.5C21.2 31.8 24.4 30 28 30s6.8 1.8 9.5 4.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M10 26C14.9 21.1 21.1 18 28 18s13.1 3.1 18 8" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M3 18C9.8 11.2 18.4 7 28 7s18.2 4.2 25 11" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <h2 class="desktop-brand-title">سوبرسيل وبيت حلب</h2>
+    <p class="desktop-brand-sub">أنت متصل بشبكة الضيوف — استمتع بالإنترنت طوال زيارتك</p>
+    <div class="desktop-status-badge">
+      <span class="desktop-status-dot"></span>
+      الإنترنت نشط
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     RIGHT / MOBILE: Stats card
+     ═══════════════════════════════════ -->
+<div class="desktop-right">
 <div class="card">
 
   <div class="card-header">
@@ -197,6 +368,7 @@
   </div>
   $(endif)
 
+</div>
 </div>
 
 </body>
